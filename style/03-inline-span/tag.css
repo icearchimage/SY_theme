@@ -1,0 +1,19 @@
+/* ------------------------------------------标签 tag--------------------------------------------- */
+.protyle-wysiwyg [data-node-id] span[data-type='tag']:not(:empty) {
+    color: #00bf66;
+    background-color: #f0faf6;
+    border-color: transparent !important;
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.protyle-wysiwyg [data-node-id] span[data-type="tag"] {
+    border-bottom: none;
+}
+
+/* ————————————————————标签#号———————————————————— */
+.protyle-wysiwyg [data-node-id] span[data-type='tag']:not(:empty)::before {
+    content: "#";
+}

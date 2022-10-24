@@ -1,0 +1,4 @@
+.b3-typography span[data-type~=inline-memo], 
+.protyle-wysiwyg span[data-type~=inline-memo]{
+    border-bottom: 2px dashed var(--b3-card-info-color);
+}

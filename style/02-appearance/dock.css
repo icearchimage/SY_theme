@@ -1,0 +1,53 @@
+/* ----------------------------------------------01 顶栏---------------------------------------------- */
+.toolbar {
+  margin-bottom: -22px;
+  z-index: 99;
+  opacity: 0;
+  transition: opacity 100ms;
+  transition-delay: 300ms;
+  height: 22px;
+}
+
+.toolbar__item:not(.status .toolbar__item) {
+  padding: 2px 12px;
+}
+
+.toolbar__item svg {
+  height: 15px;
+  width: 15px;
+}
+
+.toolbar:hover {
+  opacity: 1;
+  transition: all 100ms;
+}
+
+/* 设置软件顶部标题颜色 */
+/* .toolbar #drag {
+  color: #55555a4d;
+} */
+
+/* ----------------------------------------------02 左侧栏---------------------------------------------- */
+/* 下移item，防止和顶栏冲突 */
+div#dockLeft {
+  padding-top: 10px;
+  padding-bottom: 5px;
+  height: calc(100% - 15px);
+}
+
+/* ----------------------------------------------03 右侧栏---------------------------------------------- */
+div#dockRight {
+  padding-top: 10px;
+  padding-bottom: 5px;
+  height: calc(100% - 15px);
+}
+
+div#dockLeft .dock__item,
+div#dockRight .dock__item {
+  color: #99999e;
+}
+
+div#dockLeft .dock__item--active,
+div#dockRight .dock__item--active {
+  color: var(--b3-theme-primary);
+}

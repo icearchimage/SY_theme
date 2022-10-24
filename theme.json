@@ -1,0 +1,7 @@
+{
+  "name": "my_theme",
+  "author": "UserZYF, ice",
+  "url": "https://github.com/UserZYF/min-verse",
+  "version": "0.22",
+  "modes": ["light", "dark"]
+}
