@@ -37,7 +37,6 @@ ul.fn__flex.layout-tab-bar {
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
   display: inline;
-  color: #55555a4d;
 }
 
 /* 取消下方横线@v2.4.3 */
