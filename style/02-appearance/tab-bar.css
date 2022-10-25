@@ -7,28 +7,28 @@ ul.fn__flex.layout-tab-bar {
 
 /* 标签页相关设置 */
 /* ————————————————————normal———————————————————— */
-.layout-tab-bar .item {
+
+/* .layout-tab-bar .item {
   position: relative;
-  /* background-color: #f8f9fa; */
   flex: none;
   min-width: 12em;
   border-radius: 0px;
   box-shadow: none;
   margin-top: 4px;
   margin-bottom: 4px;
-}
+} */
 
-.layout-tab-bar .item:first-child {
+/* .layout-tab-bar .item:first-child {
   margin-left: 4px;
 }
 
 .layout-tab-bar .item:last-child {
   margin-right: 4px;
-}
+} */
 
-.layout-tab-bar .item:not(:last-child) {
+/* .layout-tab-bar .item:not(:last-child) {
   box-shadow: none;
-}
+} */
 
 /* 标签页中文字的相关设置 */
 .layout-tab-bar .item .item__text {
@@ -120,10 +120,6 @@ li.item.item--pin.item--focus:after {
 ul.fn__flex.layout-tab-bar.fn__flex-1 {
   flex: none;
   max-width: calc(100% - 64px);
-}
-
-ul.layout-tab-bar {
-  flex: 1;
 }
 
 /* 设置标签页关闭按钮悬浮时的背景颜色 */
