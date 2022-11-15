@@ -23,7 +23,7 @@
   --b3-theme-background: #fff;
   /* 02 侧栏背景颜色 */
   --b3-theme-background2: #f8f9fa;
-  /* 03 侧边栏和顶栏背景颜色，大圆点悬浮颜色 */
+  /* 03 侧边栏和顶栏背景颜色 */
   --b3-theme-background-light: #f8f9fa;
   /* 05 侧栏背景颜色，tab栏背景颜色 */
   --b3-theme-surface: var(--b3-theme-background2);
@@ -70,8 +70,8 @@
   /* 奥运背景卡片滚动条 */
   --b3-scroll-color-card: #ffffffb3;
 
-  /* 列表 */
-  --b3-list-hover: transparent;
+  /* 列表。大圆点背景色 */
+  --b3-list-hover: rgba(34, 34, 34, 0.2);
 
   /* 标签页/页签 */
   --b3-tab-background: #f2f2f2;
