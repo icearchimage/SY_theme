@@ -216,7 +216,7 @@ button.b3-list-item.b3-list-item--two.fn__block[data-value*="((newFile"] .b3-lis
 
 /* ————————————————————调整挂件和模板窗口的分栏效果，仍旧分为4栏—————————————————————————————— */
 .b3-list.fn__flex-1.b3-list--background:not(ul.b3-list.b3-list--background.fn__flex-1, div#globalSearchList) {
-  column-count: 4;
+  /* column-count: 4; */
   column-gap: 5px;
   /* min-width: 50vw !important; */
   font-size: 90%;
@@ -227,7 +227,7 @@ button.b3-list-item.b3-list-item--two.fn__block[data-value*="((newFile"] .b3-lis
 /* ————————————————————设置挂件和模板窗口每个项目的宽度———————————————————— */
 .b3-list.fn__flex-1.b3-list--background:not(ul.b3-list.b3-list--background.fn__flex-1, div#globalSearchList)
   .b3-list-item {
-  max-width: 200px;
+  /* max-width: 200px; */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -98,7 +98,7 @@
 
 /* ————————————————————引入自定义设置———————————————————— */
 /* 搜索界面左右排版 */
-@import url("style/CtrlP.css");
+/* @import url("style/CtrlP.css"); */
 /* 引入大家的自定义配置，放到widgets文件夹下，名称为custom.css */
 @import url(/widgets/custom.css);
 
