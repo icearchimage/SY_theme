@@ -508,6 +508,13 @@
   background-image: url("../icon4Tsundoku/youtube.svg");
 }
 
+/* bookxnote */
+.protyle-wysiwyg [data-node-id] span[data-type="a"][data-href*="bookxnotepro"]:not(:empty)::before,
+.b3-typography a[href*="bookxnotepro"]::before {
+  content: "";
+  background-image: url("../icon4Tsundoku/bxn.png");
+}
+
 /* ————————————————————为常见的文件格式设置图标———————————————————— */
 /* 文件夹 */
 .protyle-wysiwyg [data-node-id] span[data-type='a'][data-href^="file://"]:not(:empty)::before,
