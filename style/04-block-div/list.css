@@ -1,3 +1,9 @@
+/*缩小列表缩进长度*/
+.protyle-wysiwyg [data-node-id].li > .list {
+  margin-left: 14px !important;
+  padding-left: 12px;
+}
+
 .protyle-wysiwyg [data-node-id].li > [data-node-id]:before {
   content: "";
   position: absolute;

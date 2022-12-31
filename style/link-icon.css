@@ -12,15 +12,6 @@
   margin-right: 0.2em !important;
 }
 
-/* ————————————————————为常见的文件格式设置图标———————————————————— */
-.protyle-wysiwyg [data-node-id] span[data-type='a'][data-href^="file://"]:not(:empty)::before,
-.protyle-wysiwyg [data-node-id] a[href^="file://"]::before,
-.b3-typography a[href^="file://"]::before
-{
-  content: "";
-  background-image: url("../icon4Tsundoku/fold/folder.svg");
-}
-
 /* ————————————————————为没有收集icon图标的网站设置格式—————————————————— */
 .protyle-wysiwyg [data-node-id] span[data-type="a"][data-href^="http"]:not(:empty)::before,
 .protyle-wysiwyg [data-node-id] a[href^="http"]::before,
