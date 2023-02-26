@@ -216,7 +216,7 @@
   --b3-protyle-inline-mark-background: #fff29d;
   --b3-protyle-inline-mark-color: var(--b3-theme-on-background);
   /* 标签颜色 */
-  --b3-protyle-inline-tag-background: var(--b3-theme-hover2);
+  --b3-protyle-inline-tag-background: #ebebeb;
   --b3-protyle-inline-tag-color: var(--b3-theme-primary);
   /* 行内代码颜色 */
   --b3-protyle-inline-code-color: var(--b3-theme-primary);
