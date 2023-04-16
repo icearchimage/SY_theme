@@ -22,6 +22,11 @@
   transition: all 100ms;
 }
 
+/* SiYuan字的颜色 */
+.toolbar__text {
+  color: var(--b3-toolbar-color);
+}
+
 /* 设置软件顶部标题颜色 */
 /* .toolbar #drag {
   color: #55555a4d;

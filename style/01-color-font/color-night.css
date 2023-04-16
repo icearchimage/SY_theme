@@ -1,10 +1,10 @@
 /* ---------------------------------需要修改的地方：主要色，背景色，文字色---------------------------------- */
 :root {
   /* ————————————————————主要色———————————————————— */
-  --b3-theme-primary: #3b7085;
-  --b3-theme-primary-light: #417b92;
-  --b3-theme-primary-lighter: #5b96af;
-  --b3-theme-primary-lightest: rgba(66, 133, 244, 0.12);
+  --b3-theme-primary: #4285f4;
+  --b3-theme-primary-light: #4285f48a;
+  --b3-theme-primary-lighter: rgba(66, 133, 244, 0.38);
+  --b3-theme-primary-lightest: rgba(54, 56, 60, 0.311);
 
   /* ————————————————————透明色———————————————————— */
   --b3-theme-tm1: var(--b3-theme-primary-lighter);
@@ -20,15 +20,15 @@
 
   /* ————————————————————背景色———————————————————— */
   /* 01 正文背景颜色 */
-  --b3-theme-background: #16232f;
+  --b3-theme-background: #202020;
   /* 02 侧栏背景颜色 */
-  --b3-theme-background2: #031c25;
+  --b3-theme-background2: #292a2d;
   /* 03 侧边栏和顶栏背景颜色 */
-  --b3-theme-background-light: #293e4c;
-  /* 05 侧栏背景颜色 */
+  --b3-theme-background-light: #353637;
+  /* 05 侧栏背景颜色，tab栏背景颜色 */
   --b3-theme-surface: var(--b3-theme-background2);
-  /* 06 标签页背景颜色 */
-  --b3-theme-tab: var(--b3-theme-background);
+  /* 06 非选中tab背景颜色（选中的用主色了） */
+  --b3-theme-tab: #353637;
   /* 07 错误颜色 */
   --b3-theme-error: #d23f31;
   /* 08 透明背景，适用于设置背景中引用的背景 */
@@ -54,7 +54,7 @@
   /* 卡片中文字颜色 */
   --b3-font-color-oncard: #fefcfe;
   /* 图标和说明文字颜色 */
-  --b3-theme-on-surface: #9aa0a6;
+  --b3-theme-on-surface: #a7a7a7;
   /* 错误时文字颜色，保持默认即可 */
   --b3-theme-on-error: white;
 
@@ -62,10 +62,10 @@
   --b3-toolbar-background: var(--b3-theme-surface);
 
   /* 线条颜色 */
-  --b3-border-color: #2f4961;
+  --b3-border-color: #838383;
 
   /* 默认滚动条 */
-  --b3-scroll-color: #4a6881c0;
+  --b3-scroll-color: #4e4e4e;
   /* 奥运背景卡片滚动条 */
   --b3-scroll-color-card: #ffffffb3;
 
@@ -199,8 +199,8 @@
   --b3-protyle-search-border-color: #f2e680;
   --b3-protyle-search-current-background: #a5d3fe;
 
-  /* 代码片段背景（上面的那条） */
-  --b3-protyle-code-background: #0f1d2a;
+  /* 代码块背景（上面的那条） */
+  --b3-protyle-code-background: rgba(240, 246, 252, 0.15);
 
   /* ————————————————————行内元素颜色———————————————————— */
   /* 加粗文字颜色 */
@@ -251,7 +251,7 @@
   --b3-border-radius-math: 0px 0px 3px 3px;
 
   /* ————————————————————边框—————————————————— */
-  --b3-border-color1: #293e4c;
+  --b3-border-color1: #838383; /* 引用块边框 */
   --b3-tab-bar-border-color: #b8b8b8;
   --b3-border-normal: 1px solid #cfcece;
   --b3-border-wider: 2px solid #cfcece;

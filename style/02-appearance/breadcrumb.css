@@ -1,37 +1,38 @@
 /* -------------------------------------------------面包屑导航样式-------------------------------------------- */
 .protyle-breadcrumb {
-    color: #55555a80;
-    font-size: 14px !important;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+  /* color: #55555a80; */
+  font-size: 14px !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .protyle-breadcrumb__item svg {
-    height: 14px;
-    width: 14px;
+  height: 14px;
+  width: 14px;
 }
 
 /* 调整面包屑条目颜色（依次为符号icon，小三角标志，文字颜色） */
-.protyle-breadcrumb svg.popover__block,
+/* 用默认的theme on surface */
+/* .protyle-breadcrumb svg.popover__block,
 .protyle-breadcrumb .protyle-breadcrumb__arrow,
 .protyle-breadcrumb .protyle-breadcrumb__item {
-    color: #55555a4d;
-}
+  color: #55555a4d;
+} */
 
 .protyle-breadcrumb__item--active {
-    color: var(--b3-theme-on-background);
+  color: var(--b3-theme-on-background);
 }
 
 .protyle-breadcrumb__item:hover {
-    color: var(--b3-theme-on-background) !important;
-    background-color: rgba(154, 153, 155, .08) !important;
+  color: var(--b3-theme-on-background) !important;
+  background-color: rgba(154, 153, 155, 0.08) !important;
 }
 
 /* 设置聚焦的块前面的符号颜色和文字颜色为主色 */
 span.protyle-breadcrumb__item.protyle-breadcrumb__item--active,
 span.protyle-breadcrumb__item.protyle-breadcrumb__item--active svg.popover__block {
-    color: var(--b3-theme-primary);
+  color: var(--b3-theme-primary);
 }
 
 /* -------------------------------------------------面包屑导航样式 END-------------------------------------------- */

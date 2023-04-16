@@ -27,7 +27,7 @@
   --b3-theme-background-light: #f8f9fa;
   /* 05 侧栏背景颜色，tab栏背景颜色 */
   --b3-theme-surface: var(--b3-theme-background2);
-  /* 06 标签页背景颜色 */
+  /* 06 当前标签页背景颜色 */
   --b3-theme-tab: #f1f1f1;
   /* 07 错误颜色，保持默认 */
   --b3-theme-error: #ec8d8deb;
@@ -62,7 +62,6 @@
   --b3-toolbar-background: #f3f5f7;
 
   /* 线条颜色 */
-  /* --b3-border-color: rgba(128, 128, 128, 0.1); */
   --b3-border-color: rgba(0, 0, 0, 0.07);
 
   /* 默认滚动条 */

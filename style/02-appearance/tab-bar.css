@@ -46,20 +46,32 @@ ul.fn__flex.layout-tab-bar {
 /* ————————————————————normal End———————————————————— */
 
 /* ————————————————————focus———————————————————— */
-/* 设置当前标签页样式 */
-.layout-tab-bar .item--focus {
-  background-color: var(--b3-theme-tab);
-  box-shadow: none !important;
-  min-width: 12em;
-  z-index: 1;
-  border-radius: 4px;
-  box-shadow: inset 0 2px 0 0 transparent, 0px 0px 0.5px rgba(0, 0, 0, 0.055),
-    0px 0px 4px rgba(0, 0, 0, 0.11) !important;
+/* tab栏背景 */
+.layout-tab-bar {
+  background-color: var(--b3-theme-surface);
+  border-bottom: none;
 }
 
+/* tab样式(优先于下面第一个当前tab样式) v2.1.14引入 */
+.layout-tab-bar .item:not(:last-child),
+.layout-tab-bar .item:last-child:not(.item--focus):not(.item--readonly) {
+  background-color: var(--b3-theme-tab);
+  box-shadow: none;
+}
+
+/* 设置当前tab样式 */
+.layout-tab-bar .item--focus {
+  /* box-shadow: none !important; */
+  min-width: 12em;
+  z-index: 1;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+}
+
+/* 设置当前tab样式(按一下tab才出效果？) */
 .layout__wnd--active .layout-tab-bar .item--focus {
-  box-shadow: inset 0 2px 0 0 transparent, 0px 0px 0.5px rgba(0, 0, 0, 0.055),
-    0px 0px 4px rgba(0, 0, 0, 0.11) !important;
+  background-color: var(--b3-theme-background);
+  box-shadow: inset 0 2px 0 0 transparent, 0px 0px 4px var(--b3-theme-tm2) !important;
 }
 
 /* 文字样式 */
@@ -109,12 +121,6 @@ li.item.item--pin.item--focus:after {
   display: none;
 } */
 /* ————————————————————emoji end———————————————————— */
-
-/* v2.1.14引入 */
-.layout-tab-bar .item:not(:last-child),
-.layout-tab-bar .item:last-child:not(.item--focus):not(.item--readonly) {
-  box-shadow: none;
-}
 
 /* New page button */
 ul.fn__flex.layout-tab-bar.fn__flex-1 {
