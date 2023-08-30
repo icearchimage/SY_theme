@@ -8,9 +8,9 @@
   height: 22px;
 }
 
-.toolbar__item:not(.status .toolbar__item) {
-  padding: 2px 12px;
-}
+/* .toolbar__item:not(.status .toolbar__item) {
+  padding: 4px 12px;
+} */
 
 .toolbar__item svg {
   height: 15px;
