@@ -35,8 +35,8 @@
   /* box-shadow: var(--b3-code-block-shadow); */
 }
 
-/* 设置顶部三个mac按钮样式 */
-.code-block::after {
+/* 设置顶部三个mac按钮样式 (和聚焦子弹线冲突，暂时去掉) */
+/* .code-block::after {
   content: " ";
   position: absolute;
   background: #fa625c;
@@ -47,7 +47,7 @@
   height: 12px;
   width: 12px;
   z-index: 1;
-}
+} */
 
 /*  ————————————————————————————————————代码块行数——————————————————————————————————*/
 .protyle-linenumber__rows {

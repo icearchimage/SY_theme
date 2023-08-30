@@ -71,6 +71,8 @@
 
   /* 列表 */
   --b3-list-hover: #0b3f54;
+  /* 列表子弹线颜色 */
+  --b3-list-bullet-line: #a7a7a7;
 
   /* 标签页/页签 */
   --b3-tab-font-color: #7f8387;

@@ -71,6 +71,8 @@
 
   /* 列表。大圆点背景色 */
   --b3-list-hover: rgba(34, 34, 34, 0.2);
+  /* 列表子弹线颜色 */
+  --b3-list-bullet-line: gray;
 
   /* 标签页/页签 */
   --b3-tab-background: #f2f2f2;

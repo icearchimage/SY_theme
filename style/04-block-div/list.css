@@ -24,6 +24,162 @@
   top: -10px !important;
 }
 
+/* ----------------------------------- 子弹线 ---------------------------------- */
+/* REF https://github.com/svchord/Rem-Craft */
+/*圆点*/
+.protyle-wysiwyg [data-node-id].li:has(.block-focus) > .protyle-action {
+  color: var(--b3-list-bullet-line);
+}
+/*圆点周围*/
+.protyle-wysiwyg [data-node-id].li:has(.block-focus) > .protyle-action svg {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  padding: 0px 0px;
+}
+/*每个列表点左边的竖线*/
+.protyle-wysiwyg [data-node-id].li:has(.block-focus) > .list:has(.block-focus) > .li::after {
+  content: "";
+  display: block;
+  position: absolute;
+  pointer-events: none;
+  width: 26px;
+  left: -10px;
+  top: -12px;
+  border-style: solid;
+  border-color: var(--b3-list-bullet-line);
+}
+/*非聚焦点的竖线样式*/
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)
+  > .list:has(.block-focus)
+  > .li:not(:has(.block-focus))::after {
+  bottom: -2px;
+  border-width: 0 0 0 2px;
+}
+/*转弯线，聚焦节点（也是最后一个子节点）*/
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)
+  > .list:has(.block-focus)
+  > .li:has(.block-focus)::after {
+  height: 26px;
+  border-radius: 0 0 0 8px;
+  border-width: 0 0 2px 2px;
+}
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)
+  > .list:has(.block-focus)
+  > .li:has(.block-focus)
+  ~ .li:not(:has(.block-focus))::after {
+  border-color: rgba(0, 0, 0, 0);
+}
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)
+  > .list:has(.block-focus)
+  > .li[data-subtype="o"]::after {
+  width: 24px;
+}
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)
+  > .list:has(.block-focus)
+  > .li[data-subtype="t"]::after {
+  width: 28px;
+}
+/*列表的小点下面延伸的竖线，为了和转弯线衔接上*/
+.protyle-wysiwyg [data-node-id].li:has(.block-focus) > [data-node-id]::after {
+  content: "";
+  display: block;
+  position: absolute;
+  pointer-events: none;
+  width: 34px;
+  left: -18px;
+  top: -20px;
+  border-style: solid;
+  border-color: var(--b3-list-bullet-line);
+  top: 20px;
+  height: calc(100% + 4px);
+  border-width: 0 0 0 2px;
+}
+/*列表的小点下面延伸的竖线的形状*/
+.protyle-wysiwyg [data-node-id].li:has(.block-focus) > [data-node-id]:has(+ .list)::after {
+  height: auto;
+  bottom: 0px;
+  top: 18px;
+}
+/*列表（MD标题）的小点下面延伸的竖线*/
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)
+  > [data-node-id][data-type="NodeHeading"]::after {
+  top: 18px;
+  height: 60%;
+}
+.protyle-wysiwyg [data-node-id].li:has(.block-focus) > [data-node-id].list:has(.block-focus)::after,
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)
+  > [data-node-id].list:has(.block-focus)
+  ~ [data-node-id]::after,
+.protyle-wysiwyg [data-node-id].li:has(.block-focus) > [data-node-id].bq:has(.block-focus)::after,
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)
+  > [data-node-id].bq:has(.block-focus)
+  ~ [data-node-id]::after,
+.protyle-wysiwyg [data-node-id].li:has(.block-focus) > [data-node-id].sb:has(.block-focus)::after,
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)
+  > [data-node-id].sb:has(.block-focus)
+  ~ [data-node-id]::after {
+  border-color: rgba(0, 0, 0, 0);
+}
+/*隐藏最终聚焦节点的下方延伸线*/
+.protyle-wysiwyg [data-node-id].li:has(.block-focus)[fold="1"] > [data-node-id]::after,
+.protyle-wysiwyg [data-node-id].li:has(.block-focus):has(> .block-focus) > [data-node-id]::after {
+  border-color: rgba(0, 0, 0, 0);
+}
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)[data-subtype="o"]:has(.block-focus)
+  > .list:has(.block-focus)
+  > .li::after {
+  top: -10px;
+}
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)[data-subtype="o"]:has(.block-focus)
+  > .list:has(.block-focus)
+  > .li:has(.block-focus)::after {
+  height: 28px;
+}
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)[data-subtype="t"]:has(.block-focus)
+  > .protyle-action {
+  color: rgb(70, 110, 220);
+}
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)[data-subtype="t"]:has(.block-focus)
+  > .protyle-action
+  svg {
+  margin: 0;
+  width: 14px;
+  height: 14px;
+  padding: 0px 0px;
+}
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)[data-subtype="t"]:has(.block-focus)
+  > .list:has(.block-focus)
+  > .li::after {
+  top: -14px;
+}
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)[data-subtype="t"]:has(.block-focus)
+  > .list:has(.block-focus)
+  > .li:has(.block-focus)::after {
+  height: 32px;
+}
+.protyle-wysiwyg
+  [data-node-id].li:has(.block-focus)[data-subtype="t"]:has(.block-focus).protyle-task--done
+  > .list:has(.block-focus)
+  > .li::after {
+  border-color: rgba(139, 139, 139);
+}
+
 /* ----------------------------------无序列表和有序列表前面的符号--------------------------------------- */
 /* -------------------------列表悬浮------------------------ */
 /* 大圆背景 */
