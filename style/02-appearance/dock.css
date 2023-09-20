@@ -1,11 +1,12 @@
 /* ----------------------------------------------01 顶栏---------------------------------------------- */
 .toolbar {
-  margin-bottom: -22px;
-  z-index: 99;
+  height: 34px;
+  margin-bottom: -34px;
+  z-index: 8;
   opacity: 0;
-  transition: opacity 100ms;
-  transition-delay: 300ms;
-  height: 22px;
+  transition: all 100ms;
+  transform: translateY(-24px);
+  transition-delay: 500ms;
 }
 
 /* .toolbar__item:not(.status .toolbar__item) {
@@ -19,6 +20,7 @@
 
 .toolbar:hover {
   opacity: 1;
+  transform: translateY(0px);
   transition: all 100ms;
 }
 
@@ -27,10 +29,11 @@
   color: var(--b3-toolbar-color);
 }
 
-/* 设置软件顶部标题颜色 */
-/* .toolbar #drag {
-  color: #55555a4d;
-} */
+/* 设置软件顶部标题 */
+.toolbar #drag {
+  /* color: #55555a4d; */
+  height: 28px;
+}
 
 /* ----------------------------------------------02 左侧栏---------------------------------------------- */
 /* 下移item，防止和顶栏冲突 */
