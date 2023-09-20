@@ -124,6 +124,282 @@ function bulletMain() {
   console.log("加载子弹线成功");
 })();
 
+/* ----------------------------- 顶栏悬浮 from Savor ---------------------------- */
+function topbarfixedButton() {
+  notionThemeToolplusAddButton(
+    "topBar",
+    "toolbar__item b3-tooltips b3-tooltips__sw",
+    "隐藏顶栏",
+    "/appearance/themes/Savor/img/topbar2.svg",
+    "/appearance/themes/Savor/img/topbar.svg",
+    () => {
+      loadStyle("/appearance/themes/Savor/style/topbar/top-fixed.css", "topbar隐藏").setAttribute(
+        "topBarcss",
+        "topbar隐藏"
+      );
+    },
+    () => {
+      document.getElementById("topbar隐藏").remove();
+    },
+    true
+  );
+}
+
+/* -------自动展开悬浮窗折叠列表,展开搜索条目折叠列表,聚焦单独列表 from Savor ---------- */
+function autoOpenList() {
+  setInterval(() => {
+    //找到所有的悬浮窗
+    var Preview = document.querySelectorAll("[data-oid]");
+
+    //如果发现悬浮窗内首行是折叠列表就展开并打上标记
+    if (Preview.length != 0) {
+      for (let index = 0; index < Preview.length; index++) {
+        const element = Preview[index];
+        var item = element.children[1].children;
+
+        for (let index = 0; index < item.length; index++) {
+          var obj = item[index].children[1];
+          if (obj == null) continue;
+          const element = obj.children[0].children[0];
+          if (element == null) continue;
+          if (element.className != "li") continue; //判断是否是列表
+          if (element.getAttribute("foldTag") != null) continue; //判断是否存在标记
+          if (element.getAttribute("foid") == 0) continue; //判断是折叠
+
+          element.setAttribute("fold", 0);
+          element.setAttribute("foldTag", true);
+        }
+      }
+    }
+
+    var searchPreview = document.querySelector(
+      "#searchPreview [data-doc-type='NodeListItem'].protyle-wysiwyg.protyle-wysiwyg--attr>div:nth-child(1)"
+    );
+    if (
+      searchPreview != null &&
+      searchPreview.getAttribute("data-type") == "NodeListItem" &&
+      searchPreview.getAttribute("fold") == 1
+    ) {
+      if (searchPreview.getAttribute("foldTag") != null) return; //判断是否存在标记
+      searchPreview.setAttribute("fold", 0);
+      searchPreview.setAttribute("foldTag", true);
+    }
+
+    var contentLIst = document.querySelectorAll(
+      ".layout-tab-container>.fn__flex-1.protyle:not(.fn__none) [data-doc-type='NodeListItem'].protyle-wysiwyg.protyle-wysiwyg--attr>div:nth-child(1)"
+    );
+    for (let index = 0; index < contentLIst.length; index++) {
+      const element = contentLIst[index];
+      if (
+        element != null &&
+        element.getAttribute("data-type") == "NodeListItem" &&
+        element.getAttribute("fold") == 1
+      ) {
+        if (element.getAttribute("foldTag") != null) return; //判断是否存在标记
+        element.setAttribute("fold", 0);
+        element.setAttribute("foldTag", true);
+      }
+    }
+  }, 500);
+}
+
+/* ---------------------------- 辅助API from Savor ---------------------------- */
+/**
+ * 为元素注册监听事件
+ * @param {Element} element
+ * @param {string} strType
+ * @param {Fun} fun
+ */
+function AddEvent(element, strType, fun) {
+  //判断浏览器有没有addEventListener方法
+  if (element.addEventListener) {
+    element.addEventListener(strType, fun, false);
+    //判断浏览器有没 有attachEvent IE8的方法
+  } else if (element.attachEvent) {
+    element.attachEvent("on" + strType, fun);
+    //如果都没有则使用 元素.事件属性这个基本方法
+  } else {
+    element["on" + strType] = fun;
+  }
+}
+
+/**
+ *
+ * @param {*} element 元素是否在思源悬浮窗中
+ * @returns 是返回悬浮窗元素，否返回null
+ */
+function isSiyuanFloatingWindow(element) {
+  return isFatherFather(element, (v) => {
+    if (v.getAttribute("data-oid") != null) {
+      return true;
+    }
+    return false;
+  });
+}
+
+/**
+ * 不断查找元素父级的父级知道这个父级符合条件函数
+ * @param {*} element 起始元素
+ * @param {*} judgeFun 条件函数
+ * @param {*} upTimes 限制向上查找父级次数
+ * @returns 返回符合条件的父级，或null
+ */
+function isFatherFather(element, judgeFun, upTimes) {
+  var i = 0;
+  for (;;) {
+    if (!element) return null;
+    if (upTimes < 1 || i >= upTimes) return null;
+    if (judgeFun(element)) return element;
+    element = element.parentElement;
+    i++;
+  }
+}
+
+/**设置思源块展开 */
+function setBlockfold_0(BlockId) {
+  设置思源块属性(BlockId, { fold: "0" });
+}
+
+/**设置思源块折叠 */
+function setBlockfold_1(BlockId) {
+  设置思源块属性(BlockId, { fold: "1" });
+}
+
+/**----------------鼠标中键标题、列表文本折叠/展开 from Savor----------------*/
+function collapseExpand_Head_List() {
+  var flag45 = false;
+  AddEvent(document.body, "mouseup", () => {
+    flag45 = false;
+  });
+
+  AddEvent(document.body, "mousedown", (e) => {
+    if (e.button == 2) {
+      flag45 = true;
+      return;
+    }
+    if (flag45 || e.shiftKey || e.altKey || e.button != 1) return;
+    var target = e.target;
+
+    if (target.getAttribute("contenteditable") == null) {
+      isFatherFather(
+        target,
+        (v) => {
+          if (v.getAttribute("contenteditable") != null) {
+            target = v;
+            return true;
+          }
+          return false;
+        },
+        10
+      );
+    }
+
+    var targetParentElement = target.parentElement;
+    if (targetParentElement == null) return;
+
+    //是标题吗？
+    if (
+      targetParentElement != null &&
+      targetParentElement.getAttribute("data-type") == "NodeHeading"
+    ) {
+      var targetParentElementParentElement = targetParentElement.parentElement;
+      //标题父元素是列表吗？
+      if (
+        targetParentElementParentElement != null &&
+        targetParentElementParentElement.getAttribute("data-type") == "NodeListItem"
+      ) {
+        e.preventDefault();
+        //列表项实现折叠
+        _collapseExpand_NodeListItem(target);
+      } else {
+        e.preventDefault();
+        //标题块标项实现折叠
+        _collapseExpand_NodeHeading(target);
+      }
+    } else {
+      //是列表
+      var targetParentElementParentElement = targetParentElement.parentElement;
+      if (
+        targetParentElementParentElement != null &&
+        targetParentElementParentElement.getAttribute("data-type") == "NodeListItem"
+      ) {
+        e.preventDefault();
+        //列表项实现折叠
+        _collapseExpand_NodeListItem(target);
+      }
+    }
+  });
+
+  //标题，块标实现折叠
+  function _collapseExpand_NodeHeading(element) {
+    var i = 0;
+    while (
+      element.className != "protyle" &&
+      element.className != "fn__flex-1 protyle" &&
+      element.className != "block__edit fn__flex-1 protyle" &&
+      element.className != "fn__flex-1 spread-search__preview protyle"
+    ) {
+      if (i == 999) return;
+      i++;
+      element = element.parentElement;
+    }
+    var ddddd = element.children;
+    for (let index = ddddd.length - 1; index >= 0; index--) {
+      const element = ddddd[index];
+      if (element.className == "protyle-gutters") {
+        var fold = diguiTooONE_1(element, (v) => {
+          return v.getAttribute("data-type") === "fold";
+        });
+        if (fold != null) fold.click();
+        return;
+      }
+    }
+  }
+
+  //列表，列表项实现折叠
+  function _collapseExpand_NodeListItem(element) {
+    //在悬浮窗中第一个折叠元素吗？
+    var SiyuanFloatingWindow = isSiyuanFloatingWindow(element);
+    if (SiyuanFloatingWindow) {
+      var vs = isFatherFather(element, (v) => v.classList.contains("li"), 7);
+      if (vs != null && vs.previousElementSibling == null) {
+        var foid = vs.getAttribute("fold");
+        if (foid == null || foid == "0") {
+          //判断是折叠
+          vs.setAttribute("fold", "1");
+        } else {
+          vs.setAttribute("fold", "0");
+        }
+        return;
+      }
+    }
+
+    var i = 0;
+    while (element.getAttribute("contenteditable") == null) {
+      if (i == 999) return;
+      i++;
+      element = element.parentElement;
+    }
+    var elementParentElement = element.parentElement.parentElement;
+
+    var fold = elementParentElement.getAttribute("fold");
+
+    if (elementParentElement.children.length == 3) return;
+
+    if (fold == null || fold == "0") {
+      setBlockfold_1(elementParentElement.getAttribute("data-node-id"));
+    } else {
+      setBlockfold_0(elementParentElement.getAttribute("data-node-id"));
+    }
+  }
+}
+
+(async () => {
+  autoOpenList();
+  collapseExpand_Head_List();
+  console.log("加载Savor的列表相关辅助JS成功");
+})();
+
 /***js form Morgan***/
 /****************************思源API操作**************************/
 async function 设置思源块属性(内容块id, 属性对象) {
