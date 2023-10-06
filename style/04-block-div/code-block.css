@@ -23,6 +23,7 @@
   border-top-right-radius: 4px;
   /* background-color: var(--b3-theme-background2); */
   /* z-index: -1; */
+  line-height: 22px;
 }
 
 /* 代码块上方部分设置 */
@@ -63,6 +64,11 @@
   font-family: var(--b3-font-family-code);
   border-top-left-radius: 4px;
   width: 2.2em;
+}
+
+/*行数每个元素*/
+.protyle-linenumber__rows > span {
+  height: 22px;
 }
 
 .protyle-linenumber__rows span::before {
