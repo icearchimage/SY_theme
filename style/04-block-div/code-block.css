@@ -14,7 +14,7 @@
 .b3-typography .hljs {
   padding-top: 4px !important;
   padding-bottom: 4px !important;
-  padding-left: 16px;
+  padding-left: 4px;
   font-family: var(--b3-font-family-code);
   font-size: 80%;
   background-size: 20px 20px;
@@ -35,7 +35,7 @@
 .protyle-wysiwyg .code-block,
 .b3-typography .code-block {
   position: relative;
-  display: block;
+  /* display: block; */
   border-radius: var(--b3-border-radius-noraml);
   padding-top: 1px !important;
   /* box-shadow: var(--b3-code-block-shadow); */
@@ -76,9 +76,10 @@
 }
 
 /* 显示行号时行号栏的宽度*/
-.protyle-linenumber {
+/* 2.12不是了，这是代码主体区域 */
+/* .protyle-linenumber {
   margin-left: 2.2em;
-}
+} */
 
 /* ————————————————————————————————————代码块行数和代码之间的竖线——————————————————————— */
 /* .protyle-linenumber__rows::before {
