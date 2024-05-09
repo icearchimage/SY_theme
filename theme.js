@@ -155,16 +155,16 @@ function autoOpenList() {
     if (Preview.length != 0) {
       for (let index = 0; index < Preview.length; index++) {
         const element = Preview[index];
-        var item = element.children[1].children;
+        var item = element.children[1].children; // block__content
 
         for (let index = 0; index < item.length; index++) {
-          var obj = item[index].children[1];
+          var obj = item[index].children[1]; // protyle-content
           if (obj == null) continue;
-          const element = obj.children[0].children[0];
+          const element = obj.children[1].children[0]; // NodeListItem
           if (element == null) continue;
           if (element.className != "li") continue; //判断是否是列表
           if (element.getAttribute("foldTag") != null) continue; //判断是否存在标记
-          if (element.getAttribute("foid") == 0) continue; //判断是折叠
+          if (element.getAttribute("fold") == 0) continue; //判断是折叠
 
           element.setAttribute("fold", 0);
           element.setAttribute("foldTag", true);

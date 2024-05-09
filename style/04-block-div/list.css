@@ -4,6 +4,18 @@
   padding-left: 12px;
 }
 
+/* 每行行距减小 */
+.b3-typography p,
+.b3-typography [data-node-id],
+.protyle-wysiwyg p,
+.protyle-wysiwyg [data-node-id] {
+  padding: 1px;
+  margin: 0px 0;
+}
+.protyle-wysiwyg .li {
+  min-height: 0px !important;
+}
+
 .protyle-wysiwyg [data-node-id].li > [data-node-id]:before {
   content: "";
   position: absolute;
