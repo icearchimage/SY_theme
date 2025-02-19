@@ -16,16 +16,6 @@
   min-height: 0px !important;
 }
 
-.protyle-wysiwyg [data-node-id].li > [data-node-id]:before {
-  content: "";
-  position: absolute;
-  /* border-left: 0.1em solid #ededed; */
-  border-left: 0.1em solid var(--b3-theme-background-light);
-  top: 4px;
-  left: -18px;
-  z-index: 3;
-}
-
 /* ---------------------给有颜色背景的块设置前面无序列表的样式---------------- */
 .list[style*="background-color: var(--b3-font-background"] .li > :before {
   border-color: #00000033 !important;

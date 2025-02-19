@@ -4,15 +4,18 @@
 .b3-typography blockquote {
   border-left-color: transparent;
   background-color: var(--b3-theme-background2);
-  width: fit-content;
+  /* width: fit-content; */
   min-width: 12em;
   font-weight: 500;
+  padding-left: calc(.25em + 14px);
 }
 
 .protyle-wysiwyg [data-node-id].bq:not(div.list div.bq):before,
 .b3-typography blockquote:not(div.list div.bq):before {
   content: url("../../src/bq.svg");
-  margin-left: 4px;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
 }
 
 /* 设置列表中的引用样式 */
@@ -29,4 +32,16 @@ div.list div.bq div.p {
 
 div.list div.bq div[data-type="NodeHeading"] {
   margin-top: 4px;
+}
+
+/* 引用样式前面的小装饰 */
+.protyle-wysiwyg [data-node-id].li > [data-node-id]:before {
+  content: "";
+  position: absolute;
+  /* border-left: 0.1em solid var(--b3-theme-background-light); */
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  border-radius: 0px;
+  z-index: 3;
 }
