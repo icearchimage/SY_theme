@@ -50,6 +50,7 @@
   top: -12px;
   border-style: solid;
   border-color: var(--b3-list-bullet-line);
+  background-color: transparent;
 }
 /*非聚焦点的竖线样式*/
 .protyle-wysiwyg
@@ -58,6 +59,7 @@
   > .li:not(:has(.block-focus))::after {
   bottom: -2px;
   border-width: 0 0 0 2px;
+  border-radius: 0px;
 }
 /*转弯线，聚焦节点（也是最后一个子节点）*/
 .protyle-wysiwyg
@@ -101,12 +103,14 @@
   top: 20px;
   height: calc(100% + 4px);
   border-width: 0 0 0 2px;
+  background-color: transparent;
 }
 /*列表的小点下面延伸的竖线的形状*/
 .protyle-wysiwyg [data-node-id].li:has(.block-focus) > [data-node-id]:has(+ .list)::after {
   height: auto;
   bottom: 0px;
   top: 18px;
+  border-radius: 0px;
 }
 /*列表（MD标题）的小点下面延伸的竖线*/
 .protyle-wysiwyg
