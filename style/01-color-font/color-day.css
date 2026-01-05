@@ -87,13 +87,13 @@
   /* ————————————————————4种外观样式———————————————————— */
   /* 4种样式中文字的颜色 */
   --b3-card-error-color: #202124;
-  --b3-card-warning-color: #202124;
-  --b3-card-info-color: #20212496;
-  --b3-card-success-color: #202124;
+  --b3-card-warning-color: var(--b3-theme-on-background);
+  --b3-card-info-color: var(--b3-theme-on-background);
+  --b3-card-success-color: var(--b3-theme-on-background);
   /* 4种样式背景颜色 */
   --b3-card-error-background: #fbd2d4;
   --b3-card-warning-background: #fcf4cc;
-  --b3-card-info-background: #dbdcf48a;
+  --b3-card-info-background: #0099ff49;
   --b3-card-success-background: #cce7e0;
   /* 浅色便利贴背景颜色 */
   --b3-card-light-red: rgba(252, 231, 233);
