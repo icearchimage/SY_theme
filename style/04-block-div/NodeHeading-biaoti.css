@@ -17,9 +17,9 @@
 /* 设置标题宽度 */
 .protyle-title.protyle-wysiwyg--attr {
   max-width: 19cm;
-  margin: 4px auto 4px !important;
+  /* margin: 4px auto 4px !important;
   padding-left: 1cm !important;
-  padding-right: 1cm !important;
+  padding-right: 1cm !important; */
 }
 
 /* ——————————————————————————H1-H6 标题样式—————————————————————————— */

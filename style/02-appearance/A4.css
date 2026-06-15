@@ -12,6 +12,12 @@
   padding-right: 1cm !important;
 } */
 
+/* 设置正文左右边界距离为0 */
+.protyle-wysiwyg {
+  padding-left: 0 !important;
+  padding-right: 24px !important;
+}
+
 /* .protyle-content {
     background-image: linear-gradient(to right, rgba(60, 10, 30, 0.05) 1px, transparent 0px);
     background-size: 15vw 15vw !important;
