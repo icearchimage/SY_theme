@@ -7,6 +7,7 @@ import { initBulletThreading } from './modules/bulletThreading.js';
 import { initTopbar } from './modules/topbar.js';
 import { initSavorList } from './modules/savorList.js';
 import { initMiddleClickCollapse } from './modules/middleClickCollapse.js';
+import { initListPreview } from './modules/listPreview.js';
 import { initViewSelect } from './modules/viewSelect.js';
 
 export const initAll = async () => {
@@ -15,6 +16,7 @@ export const initAll = async () => {
   initTopbar();
   initSavorList();
   initMiddleClickCollapse();
+  initListPreview();
   initViewSelect();
 };
 
@@ -24,5 +26,6 @@ export {
   initTopbar,
   initSavorList,
   initMiddleClickCollapse,
+  initListPreview,
   initViewSelect
 };

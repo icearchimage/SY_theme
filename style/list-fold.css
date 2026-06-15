@@ -1,0 +1,69 @@
+
+.protyle-wysiwyg [data-node-id].li[fold="1"]>.h1>[spellcheck][data-child-count]::after, 
+.protyle-wysiwyg [data-node-id].li[fold="1"]>.h2>[spellcheck][data-child-count]::after, 
+.protyle-wysiwyg [data-node-id].li[fold="1"]>.h3>[spellcheck][data-child-count]::after, 
+.protyle-wysiwyg [data-node-id].li[fold="1"]>.h4>[spellcheck][data-child-count]::after, 
+.protyle-wysiwyg [data-node-id].li[fold="1"]>.h5>[spellcheck][data-child-count]::after, 
+.protyle-wysiwyg [data-node-id].li[fold="1"]>.h6>[spellcheck][data-child-count]::after, 
+.protyle-wysiwyg [data-node-id].li[fold="1"]>.p>[spellcheck][data-child-count]::after{
+    content: " " attr(data-child-count) " ";
+    display: inline;
+    vertical-align: 6%;
+    font-size: 0.9em;
+    color: var(--b3-dock-item-active-color);
+    margin-left: 6px;
+    border-radius: 4px;
+	background-color: var(--b3-theme-surface-lighter);
+	padding:1px 1.5px;
+    min-width: 20px;
+}
+
+/* 尚未写入 data-child-count 时显示省略号占位 */
+.protyle-wysiwyg [data-node-id].li[fold="1"]>.h1>[spellcheck]:not([data-child-count])::after, 
+.protyle-wysiwyg [data-node-id].li[fold="1"]>.h2>[spellcheck]:not([data-child-count])::after, 
+.protyle-wysiwyg [data-node-id].li[fold="1"]>.h3>[spellcheck]:not([data-child-count])::after, 
+.protyle-wysiwyg [data-node-id].li[fold="1"]>.h4>[spellcheck]:not([data-child-count])::after, 
+.protyle-wysiwyg [data-node-id].li[fold="1"]>.h5>[spellcheck]:not([data-child-count])::after, 
+.protyle-wysiwyg [data-node-id].li[fold="1"]>.h6>[spellcheck]:not([data-child-count])::after, 
+.protyle-wysiwyg [data-node-id].li[fold="1"]>.p>[spellcheck]:not([data-child-count])::after{
+    content: " ••• ";
+    display: inline;
+    vertical-align: 15%;
+    font-size: 10px;
+    color: var(--b3-dock-item-active-color);
+    margin-left: 9px;
+    border-radius: 4px;
+    background-color: var(--b3-theme-surface-lighter);
+    box-shadow: 0px 0px 3px 1px var(--b3-theme-surface-lighter);
+    padding: 1px 0px 3px 0px;
+    opacity: 1;
+    position: unset;
+    float: unset;
+}
+
+/* 折叠列表预览触发块：去掉透明链接的下划线 */
+.protyle-wysiwyg .triggerBlock span.list-A,
+.protyle-wysiwyg .triggerBlock span[data-type="a"],
+.protyle-wysiwyg [triggerBlock="true"] span[data-type="a"] {
+    text-decoration: none !important;
+    border-bottom: none !important;
+    border-bottom-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.protyle-wysiwyg .triggerBlock span.list-A:hover,
+.protyle-wysiwyg .triggerBlock span[data-type="a"]:hover,
+.protyle-wysiwyg [triggerBlock="true"] span[data-type="a"]:hover {
+    text-decoration: none !important;
+    border-bottom: none !important;
+    border-bottom-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* 预览弹窗/引用悬浮窗/搜索预览中仅展开第一层折叠列表（from Savor menu.css） */
+.block__popover .protyle-wysiwyg > [data-node-id].li[fold="1"] > div:nth-child(3):not(.protyle-attr),
+.block__popover .protyle-wysiwyg > [data-node-id].li[fold="1"] > .list,
+#searchPreview .protyle-wysiwyg > [data-node-id].li[fold="1"] > div:nth-child(3):not(.protyle-attr),
+#searchPreview .protyle-wysiwyg > [data-node-id].li[fold="1"] > .list {
+    display: block !important;
+}

@@ -1,61 +1,55 @@
 /* -------自动展开悬浮窗折叠列表,展开搜索条目折叠列表,聚焦单独列表 from Savor ---------- */
 
-/**自动展开悬浮窗折叠列表 */
-function autoOpenList() {
-  setInterval(() => {
-    //找到所有的悬浮窗
-    var Preview = document.querySelectorAll("[data-oid]");
+const PREVIEW_CONTAINER_SELECTORS = ".block__popover, #searchPreview";
+const FOLD_TAG = "foldTag";
 
-    //如果发现悬浮窗内首行是折叠列表就展开并打上标记
-    if (Preview.length != 0) {
-      for (let index = 0; index < Preview.length; index++) {
-        const element = Preview[index];
-        var item = element.children[1].children; // block__content
+function tryUnfoldListItem(item) {
+  if (!item || item.getAttribute("fold") !== "1") return;
+  if (item.hasAttribute(FOLD_TAG)) return;
+  if (!item.querySelector(":scope > .list")) return;
 
-        for (let index = 0; index < item.length; index++) {
-          var obj = item[index].children[1]; // protyle-content
-          if (obj == null) continue;
-          const element = obj.children[1].children[0]; // NodeListItem
-          if (element == null) continue;
-          if (element.className != "li") continue; //判断是否是列表
-          if (element.getAttribute("foldTag") != null) continue; //判断是否存在标记
-          if (element.getAttribute("fold") == 0) continue; //判断是折叠
+  item.setAttribute("fold", "0");
+  item.setAttribute(FOLD_TAG, "true");
+}
 
-          element.setAttribute("fold", 0);
-          element.setAttribute("foldTag", true);
-        }
-      }
-    }
+function unfoldListsInContainer(container) {
+  if (!container) return;
+  container.querySelectorAll(".protyle-wysiwyg").forEach((wysiwyg) => {
+    wysiwyg.querySelectorAll(":scope > [data-node-id].li[fold='1']").forEach(tryUnfoldListItem);
+  });
+}
 
-    var searchPreview = document.querySelector(
-      "#searchPreview [data-doc-type='NodeListItem'].protyle-wysiwyg.protyle-wysiwyg--attr>div:nth-child(1)"
-    );
+function unfoldPreviewFoldedLists() {
+  document.querySelectorAll(PREVIEW_CONTAINER_SELECTORS).forEach(unfoldListsInContainer);
+
+  document.querySelectorAll(
+    ".layout-tab-container>.fn__flex-1.protyle:not(.fn__none) [data-doc-type='NodeListItem'].protyle-wysiwyg.protyle-wysiwyg--attr>div:nth-child(1)"
+  ).forEach((element) => {
     if (
-      searchPreview != null &&
-      searchPreview.getAttribute("data-type") == "NodeListItem" &&
-      searchPreview.getAttribute("fold") == 1
+      element?.getAttribute("data-type") === "NodeListItem" &&
+      element.getAttribute("fold") === "1"
     ) {
-      if (searchPreview.getAttribute("foldTag") != null) return; //判断是否存在标记
-      searchPreview.setAttribute("fold", 0);
-      searchPreview.setAttribute("foldTag", true);
+      tryUnfoldListItem(element);
     }
+  });
+}
 
-    var contentLIst = document.querySelectorAll(
-      ".layout-tab-container>.fn__flex-1.protyle:not(.fn__none) [data-doc-type='NodeListItem'].protyle-wysiwyg.protyle-wysiwyg--attr>div:nth-child(1)"
-    );
-    for (let index = 0; index < contentLIst.length; index++) {
-      const element = contentLIst[index];
-      if (
-        element != null &&
-        element.getAttribute("data-type") == "NodeListItem" &&
-        element.getAttribute("fold") == 1
-      ) {
-        if (element.getAttribute("foldTag") != null) return; //判断是否存在标记
-        element.setAttribute("fold", 0);
-        element.setAttribute("foldTag", true);
-      }
-    }
-  }, 500);
+/**自动展开预览窗口、搜索预览中的折叠列表 */
+/**主要用CSS实现，这里为了兼容弹窗内容异步加载等边缘情况*/
+function autoOpenList() {
+  const run = () => unfoldPreviewFoldedLists();
+
+  run();
+
+  const observer = new MutationObserver(() => run());
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["fold", "class"],
+  });
+
+  setInterval(run, 500);
 }
 
 export const initSavorList = () => {
