@@ -1,5 +1,11 @@
 /* ----------------------------- 顶栏悬浮 from Savor ---------------------------- */
 
+import {
+  isOfficialMobileLayout,
+  isLikelyMobileBrowser,
+  shouldUseMobileThemeLayout,
+} from "./device.js";
+
 function topbarfixedButton() {
   notionThemeToolplusAddButton(
     "topBar",
@@ -55,7 +61,21 @@ function addTopbarTreeButton() {
   }
 }
 
+function initMobileBodyClass() {
+  if (!shouldUseMobileThemeLayout()) return;
+
+  document.body.classList.add("body--mobile");
+  document.body.classList.toggle("body--mobile-browser", isLikelyMobileBrowser());
+
+  if (navigator.platform.toUpperCase().indexOf("MAC") > -1) {
+    document.body.classList.add("body--mac");
+  }
+}
+
 export const initTopbar = () => {
-  const isMobile = !!window.siyuan.mobile; //在平板上好像有问题
-  if (isMobile) addTopbarTreeButton();
+  initMobileBodyClass();
+
+  if (isOfficialMobileLayout()) {
+    addTopbarTreeButton();
+  }
 };
