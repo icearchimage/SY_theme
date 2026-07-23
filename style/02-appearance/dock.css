@@ -8,9 +8,12 @@ body:not(.body--mobile) > #toolbar {
   transition: all 100ms;
   transform: translateY(-24px);
   transition-delay: 500ms;
+  background-color: var(--b3-toolbar-background);
 }
 
-body:not(.body--mobile) > #toolbar:hover {
+/* 悬停，或 Alt 单击锁定显示（见 topbar.js） */
+body:not(.body--mobile) > #toolbar:hover,
+body.my-theme--toolbar-show:not(.body--mobile) > #toolbar {
   opacity: 1;
   transform: translateY(0px);
   transition: all 100ms;
@@ -34,6 +37,17 @@ body:not(.body--mobile) > #toolbar .toolbar__item svg {
 .toolbar #drag {
   /* color: #55555a4d; */
   height: 28px;
+}
+
+/* ----------------------------------------------01b 布局间距与圆角（3.7.x 新布局）---------------------------------------------- */
+/* 官方默认 --b3-layout-space: 4px，隐藏 dock 时正文两侧会露出 body 底色缝；圆角在 .layout__center */
+:root {
+  --b3-layout-space: 0px;
+  --b3-layout-space-margin: 0px;
+}
+
+.layout__center {
+  border-radius: 0;
 }
 
 /* ----------------------------------------------02 左侧栏---------------------------------------------- */
