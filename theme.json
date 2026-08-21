@@ -1,7 +1,17 @@
 {
   "name": "my_theme",
+  "displayName": {
+    "default": "My Theme",
+    "zh_CN": "我的主题"
+  },
   "author": "UserZYF, ice",
-  "url": "https://github.com/UserZYF/min-verse",
+  "url": "https://github.com/icearchimage/SY_theme",
   "version": "0.22",
-  "modes": ["light", "dark"]
+  "modes": ["light", "dark"],
+  "description": {
+    "default": "一个极简紧凑的个人主题"
+  },
+  "readme": {
+    "default": "README.md"
+  }
 }
