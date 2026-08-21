@@ -1,9 +1,9 @@
 /* ----------------------------- 顶栏悬浮 from Savor ---------------------------- */
 
 import {
-  getDeviceDetectionReport,
   isOfficialMobileLayout,
   isLikelyMobileBrowser,
+  logDeviceDetection,
   shouldUseMobileThemeLayout,
 } from "./device.js";
 
@@ -72,19 +72,6 @@ function initMobileBodyClass() {
 
   if (navigator.platform.toUpperCase().indexOf("MAC") > -1) {
     document.body.classList.add("body--mac");
-  }
-}
-
-function logTopbarDeviceDetection() {
-  const report = getDeviceDetectionReport();
-
-  if (report.topbarFloatEnabled) {
-    console.log("[my_theme 顶栏] 已启用顶栏悬浮效果", report);
-  } else {
-    console.warn("[my_theme 顶栏] 已关闭顶栏悬浮效果", {
-      原因: report.topbarFloatDisabledReasons,
-      检测详情: report,
-    });
   }
 }
 
@@ -161,7 +148,7 @@ function initFloatingToolbarAltToggle() {
 
 export const initTopbar = () => {
   initMobileBodyClass();
-  // logTopbarDeviceDetection();
+  // logDeviceDetection();
   initFloatingToolbarAltToggle();
 
   if (isOfficialMobileLayout()) {
