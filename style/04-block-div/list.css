@@ -1,7 +1,40 @@
-/*缩小列表缩进长度*/
+/* 列表几何：点占位 + 每一层相对上一层的缩进（margin + padding） */
+:root {
+  --li-action-width: 34px;
+  --li-nested-margin: 14px;
+  --li-nested-padding: 12px;
+}
+
+body.body--mobile {
+  --li-action-width: 10px;
+  --li-nested-margin: 5px;
+  --li-nested-padding: 5px;
+}
+
+/* 子列表相对父项再缩进；移动端与点宽对齐，子弹线会跟着这两个变量走 */
 .protyle-wysiwyg [data-node-id].li > .list {
-  margin-left: 14px !important;
-  padding-left: 12px;
+  margin-left: var(--li-nested-margin) !important;
+  padding-left: var(--li-nested-padding) !important;
+}
+
+/* 列表项正文为圆点让出的宽度 */
+.protyle-wysiwyg [data-node-id].li > [data-node-id] {
+  margin-left: var(--li-action-width);
+}
+
+.protyle.rtl .protyle-wysiwyg [data-node-id].li > [data-node-id] {
+  margin-right: var(--li-action-width);
+  margin-left: 0;
+}
+
+/* 列表项左侧竖线对齐圆点中心 */
+.protyle-wysiwyg [data-node-id].li::before {
+  left: calc(var(--li-action-width) / 2);
+}
+
+.protyle.rtl .protyle-wysiwyg [data-node-id].li::before {
+  right: calc(var(--li-action-width) / 2);
+  left: auto;
 }
 
 /* 每行行距减小 */
@@ -45,8 +78,8 @@
   display: block;
   position: absolute;
   pointer-events: none;
-  width: 26px;
-  left: -10px;
+  width: calc(var(--li-nested-margin) + var(--li-nested-padding));
+  left: calc(var(--li-action-width) / 2 - 1px - var(--li-nested-margin) - var(--li-nested-padding));
   top: -12px;
   border-style: solid;
   border-color: var(--b3-list-bullet-line);
@@ -81,13 +114,13 @@
   [data-node-id].li:has(.block-focus)
   > .list:has(.block-focus)
   > .li[data-subtype="o"]::after {
-  width: 24px;
+  width: calc(var(--li-nested-margin) + var(--li-nested-padding) - 2px);
 }
 .protyle-wysiwyg
   [data-node-id].li:has(.block-focus)
   > .list:has(.block-focus)
   > .li[data-subtype="t"]::after {
-  width: 28px;
+  width: calc(var(--li-nested-margin) + var(--li-nested-padding) + 2px);
 }
 /*列表的小点下面延伸的竖线，为了和转弯线衔接上*/
 .protyle-wysiwyg [data-node-id].li:has(.block-focus) > [data-node-id]::after {
@@ -95,8 +128,8 @@
   display: block;
   position: absolute;
   pointer-events: none;
-  width: 34px;
-  left: -18px;
+  width: var(--li-action-width);
+  left: calc(var(--li-action-width) / -2 - 1px);
   top: -20px;
   border-style: solid;
   border-color: var(--b3-list-bullet-line);
@@ -200,6 +233,7 @@
 
 /* 小圆点样式*/
 .protyle-wysiwyg [data-node-id].li > .protyle-action {
+  width: var(--li-action-width);
   height: 30px;
 }
 
