@@ -3,7 +3,7 @@
 // ========================================
 
 /** 本地调试：优先用 UA 识别，方便 DevTools 模拟设备。调完后改回 false，恢复 getFrontend() 主判定。 */
-const PREFER_USER_AGENT_FOR_LOCAL_DEBUG = true;
+const PREFER_USER_AGENT_FOR_LOCAL_DEBUG = false;
 
 const MOBILE_USER_AGENT_RE = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i;
 

@@ -60,20 +60,22 @@ body.body--mobile {
 }
 
 /* ----------------------------------- 子弹线 ---------------------------------- */
-/* REF https://github.com/svchord/Rem-Craft */
+/* REF https://github.com/svchord/Rem-Craft；焦点标记对齐 Neo-Plus（.block-focus 打在祖先列表上） */
 /*圆点*/
-.protyle-wysiwyg [data-node-id].li:has(.block-focus) > .protyle-action {
+.protyle-wysiwyg [data-node-id].li.block-focus > .protyle-action {
   color: var(--b3-list-bullet-line);
 }
-/*圆点周围*/
-.protyle-wysiwyg [data-node-id].li:has(.block-focus) > .protyle-action svg {
+/*圆点周围：视觉尺寸固定 16px，与点槽 --li-action-width 无关 */
+.protyle-wysiwyg [data-node-id].li.block-focus > .protyle-action svg {
   margin: 0;
   width: 16px;
   height: 16px;
   padding: 0px 0px;
+  flex-shrink: 0;
+  max-width: none;
 }
 /*每个列表点左边的竖线*/
-.protyle-wysiwyg [data-node-id].li:has(.block-focus) > .list:has(.block-focus) > .li::after {
+.protyle-wysiwyg [data-node-id].li.block-focus > .list.block-focus > .li::after {
   content: "";
   display: block;
   position: absolute;
@@ -87,112 +89,106 @@ body.body--mobile {
 }
 /*非聚焦点的竖线样式*/
 .protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)
-  > .list:has(.block-focus)
-  > .li:not(:has(.block-focus))::after {
+  [data-node-id].li.block-focus
+  > .list.block-focus
+  > .li:not(.block-focus)::after {
   bottom: -2px;
   border-width: 0 0 0 2px;
   border-radius: 0px;
 }
-/*转弯线，聚焦节点（也是最后一个子节点）*/
+/*转弯线，聚焦节点：高度由 JS 按父子圆点位置写入 --li-bullet-line-* */
 .protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)
-  > .list:has(.block-focus)
-  > .li:has(.block-focus)::after {
-  height: 26px;
+  [data-node-id].li.block-focus
+  > .list.block-focus
+  > .li.block-focus::after {
+  height: var(--li-bullet-line-height, 26px);
+  top: var(--li-bullet-line-top, -12px);
+  bottom: auto;
   border-radius: 0 0 0 8px;
   border-width: 0 0 2px 2px;
 }
 .protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)
-  > .list:has(.block-focus)
-  > .li:has(.block-focus)
-  ~ .li:not(:has(.block-focus))::after {
+  [data-node-id].li.block-focus
+  > .list.block-focus
+  > .li.block-focus
+  ~ .li:not(.block-focus)::after {
   border-color: rgba(0, 0, 0, 0);
 }
 .protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)
-  > .list:has(.block-focus)
+  [data-node-id].li.block-focus
+  > .list.block-focus
   > .li[data-subtype="o"]::after {
   width: calc(var(--li-nested-margin) + var(--li-nested-padding) - 2px);
 }
 .protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)
-  > .list:has(.block-focus)
+  [data-node-id].li.block-focus
+  > .list.block-focus
   > .li[data-subtype="t"]::after {
   width: calc(var(--li-nested-margin) + var(--li-nested-padding) + 2px);
 }
-/*列表的小点下面延伸的竖线，为了和转弯线衔接上*/
-.protyle-wysiwyg [data-node-id].li:has(.block-focus) > [data-node-id]::after {
+/*列表的小点下面延伸的竖线，为了和转弯线衔接上（不用 height:100%，移动端多行会缩成一行高）*/
+.protyle-wysiwyg [data-node-id].li.block-focus > [data-node-id]::after {
   content: "";
   display: block;
   position: absolute;
   pointer-events: none;
   width: var(--li-action-width);
   left: calc(var(--li-action-width) / -2 - 1px);
-  top: -20px;
   border-style: solid;
   border-color: var(--b3-list-bullet-line);
-  top: 20px;
-  height: calc(100% + 4px);
+  top: 18px;
+  bottom: 0;
+  height: auto;
   border-width: 0 0 0 2px;
   background-color: transparent;
 }
 /*列表的小点下面延伸的竖线的形状*/
-.protyle-wysiwyg [data-node-id].li:has(.block-focus) > [data-node-id]:has(+ .list)::after {
-  height: auto;
-  bottom: 0px;
-  top: 18px;
+.protyle-wysiwyg [data-node-id].li.block-focus > [data-node-id]:has(+ .list)::after {
   border-radius: 0px;
 }
 /*列表（MD标题）的小点下面延伸的竖线*/
 .protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)
+  [data-node-id].li.block-focus
   > [data-node-id][data-type="NodeHeading"]::after {
   top: 18px;
-  height: 60%;
+  bottom: 0;
+  height: auto;
 }
-.protyle-wysiwyg [data-node-id].li:has(.block-focus) > [data-node-id].list:has(.block-focus)::after,
+.protyle-wysiwyg [data-node-id].li.block-focus > [data-node-id].list.block-focus::after,
 .protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)
-  > [data-node-id].list:has(.block-focus)
+  [data-node-id].li.block-focus
+  > [data-node-id].list.block-focus
   ~ [data-node-id]::after,
-.protyle-wysiwyg [data-node-id].li:has(.block-focus) > [data-node-id].bq:has(.block-focus)::after,
+.protyle-wysiwyg [data-node-id].li.block-focus > [data-node-id].bq.block-focus::after,
 .protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)
-  > [data-node-id].bq:has(.block-focus)
+  [data-node-id].li.block-focus
+  > [data-node-id].bq.block-focus
   ~ [data-node-id]::after,
-.protyle-wysiwyg [data-node-id].li:has(.block-focus) > [data-node-id].sb:has(.block-focus)::after,
+.protyle-wysiwyg [data-node-id].li.block-focus > [data-node-id].sb.block-focus::after,
 .protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)
-  > [data-node-id].sb:has(.block-focus)
+  [data-node-id].li.block-focus
+  > [data-node-id].sb.block-focus
   ~ [data-node-id]::after {
   border-color: rgba(0, 0, 0, 0);
 }
 /*隐藏最终聚焦节点的下方延伸线*/
-.protyle-wysiwyg [data-node-id].li:has(.block-focus)[fold="1"] > [data-node-id]::after,
-.protyle-wysiwyg [data-node-id].li:has(.block-focus):has(> .block-focus) > [data-node-id]::after {
+.protyle-wysiwyg [data-node-id].li.block-focus[fold="1"] > [data-node-id]::after,
+.protyle-wysiwyg [data-node-id].li.block-focus-self > [data-node-id]::after {
   border-color: rgba(0, 0, 0, 0);
 }
 .protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)[data-subtype="o"]:has(.block-focus)
-  > .list:has(.block-focus)
-  > .li::after {
+  [data-node-id].li.block-focus[data-subtype="o"]
+  > .list.block-focus
+  > .li:not(.block-focus)::after {
   top: -10px;
 }
 .protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)[data-subtype="o"]:has(.block-focus)
-  > .list:has(.block-focus)
-  > .li:has(.block-focus)::after {
-  height: 28px;
-}
-.protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)[data-subtype="t"]:has(.block-focus)
+  [data-node-id].li.block-focus[data-subtype="t"]
   > .protyle-action {
   color: rgb(70, 110, 220);
 }
 .protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)[data-subtype="t"]:has(.block-focus)
+  [data-node-id].li.block-focus[data-subtype="t"]
   > .protyle-action
   svg {
   margin: 0;
@@ -201,20 +197,14 @@ body.body--mobile {
   padding: 0px 0px;
 }
 .protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)[data-subtype="t"]:has(.block-focus)
-  > .list:has(.block-focus)
-  > .li::after {
+  [data-node-id].li.block-focus[data-subtype="t"]
+  > .list.block-focus
+  > .li:not(.block-focus)::after {
   top: -14px;
 }
 .protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)[data-subtype="t"]:has(.block-focus)
-  > .list:has(.block-focus)
-  > .li:has(.block-focus)::after {
-  height: 32px;
-}
-.protyle-wysiwyg
-  [data-node-id].li:has(.block-focus)[data-subtype="t"]:has(.block-focus).protyle-task--done
-  > .list:has(.block-focus)
+  [data-node-id].li.block-focus[data-subtype="t"].protyle-task--done
+  > .list.block-focus
   > .li::after {
   border-color: rgba(139, 139, 139);
 }
@@ -231,10 +221,12 @@ body.body--mobile {
   color: var(--b3-theme-primary) !important;
 }
 
-/* 小圆点样式*/
+/* 点槽只负责占位；圆点可溢出，聚焦 16px 不受缩进压缩影响 */
 .protyle-wysiwyg [data-node-id].li > .protyle-action {
   width: var(--li-action-width);
   height: 30px;
+  overflow: visible;
+  z-index: 1;
 }
 
 /* -------------------------列表悬浮 END------------------------ */
@@ -267,9 +259,11 @@ body.body--mobile {
   margin-bottom: 0px;
 }
 
-/* ————————————————————减小前面符号·的大小———————————————————— */
+/* ————————————————————减小前面符号·的大小（视觉尺寸，不跟点槽宽度走）———————————————————— */
 .list[data-node-id][data-type="NodeList"] .protyle-action > svg {
   width: 11px;
+  flex-shrink: 0;
+  max-width: none;
 }
 
 /* -------------------------列表折叠 END------------------------ */

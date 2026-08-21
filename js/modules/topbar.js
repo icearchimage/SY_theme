@@ -148,7 +148,7 @@ function initFloatingToolbarAltToggle() {
 
 export const initTopbar = () => {
   initMobileBodyClass();
-  // logDeviceDetection();
+  logDeviceDetection();
   initFloatingToolbarAltToggle();
 
   if (isOfficialMobileLayout()) {
