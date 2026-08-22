@@ -56,13 +56,19 @@ body {
 }
 
 /* ————————————————————————文档树区分有子文档和无子文档的文档—————————————————————— */
-.b3-list-item.b3-list-item--hide-action .b3-list-item__toggle.fn__hidden::before {
-  content: "·";
-  display: block;
+.b3-list-item.b3-list-item--hide-action .b3-list-item__toggle.fn__hidden::after {
+  content: "";
   position: absolute;
   visibility: visible;
+  top: 50%;
+  right: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background-color: currentColor;
+  pointer-events: none;
   transition: var(--b3-transition);
-  margin-bottom: 2px;
 }
 
 /* ——————————————————————————————取消默认的隐藏效果———————————————————————— */
