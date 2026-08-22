@@ -6,6 +6,7 @@
 const PREFER_USER_AGENT_FOR_LOCAL_DEBUG = false;
 
 const MOBILE_USER_AGENT_RE = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i;
+const TABLET_UA_RE = /iPad|Tablet|SM-T|SM-X|SM-P|Lenovo TB|Nexus (7|9|10)/i;
 
 const matchesMedia = (query) => {
     try {
@@ -63,6 +64,24 @@ export const isTouchCapable = () => {
 
 export const isMobileUserAgent = () => MOBILE_USER_AGENT_RE.test(navigator.userAgent || "");
 
+/**
+ * 平板：跑桌面前端（有 #toolbar、无 #editor），但设备是平板。
+ * 思源安卓/iPad 大屏会走 desktop frontend，不能当成手机移动端布局。
+ */
+export const isTabletDevice = () => {
+    if (isOfficialMobileLayout()) return false;
+    if (isSiyuanDesktopApp()) return false;
+    if (!document.getElementById("toolbar")) return false;
+
+    const ua = navigator.userAgent || "";
+    if (TABLET_UA_RE.test(ua)) return true;
+
+    // Chrome 安卓平板 UA 通常不含 Mobile；需同时是触屏，避免误伤桌面浏览器
+    const isAndroid = /Android/i.test(ua);
+    const hasMobileToken = /\bMobile\b/i.test(ua);
+    return isAndroid && !hasMobileToken && isTouchCapable();
+};
+
 /** 浏览器里的官方移动端页面，或本地用 UA 模拟的移动端 */
 export const isLikelyMobileBrowser = () => {
     if (getFrontend() === "browser-mobile") return true;
@@ -80,6 +99,9 @@ export const shouldUseMobileThemeLayout = () => {
 
 export const shouldLimitDesktopEnhancements = () => shouldUseMobileThemeLayout();
 
+/** 手机移动端或平板：关掉顶栏悬浮，始终显示顶栏 */
+export const shouldDisableTopbarFloat = () => shouldUseMobileThemeLayout() || isTabletDevice();
+
 /** 返回设备检测详情，供调试顶栏等功能使用 */
 export const getDeviceDetectionReport = () => {
     const ua = navigator.userAgent || "";
@@ -93,6 +115,8 @@ export const getDeviceDetectionReport = () => {
     const mobileUA = isMobileUserAgent();
     const likelyMobileBrowser = isLikelyMobileBrowser();
     const useMobileLayout = shouldUseMobileThemeLayout();
+    const tablet = isTabletDevice();
+    const disableTopbarFloat = shouldDisableTopbarFloat();
     const bodyClasses = [...document.body.classList];
 
     const decisionTrace = [
@@ -102,7 +126,9 @@ export const getDeviceDetectionReport = () => {
         `3. 是否存在桌面顶栏 #toolbar: ${hasToolbar}`,
         `4. UA 是否以 SiYuan/ 开头（原生客户端）: ${isNativeSiyuan}`,
         `5. 复现 getFrontend() = ${frontend}`,
-        `6. 最终 shouldUseMobileThemeLayout = ${useMobileLayout}`,
+        `6. 是否平板: ${tablet}`,
+        `7. 最终 shouldUseMobileThemeLayout = ${useMobileLayout}`,
+        `8. 最终 shouldDisableTopbarFloat = ${disableTopbarFloat}`,
     ];
 
     const mobileLayoutReasons = [];
@@ -110,17 +136,23 @@ export const getDeviceDetectionReport = () => {
         mobileLayoutReasons.push("本地调试：User-Agent 匹配移动端");
     } else if (useMobileLayout) {
         mobileLayoutReasons.push(`思源 getFrontend() = ${frontend}（以 mobile 结尾）`);
+    } else if (tablet) {
+        mobileLayoutReasons.push("识别为平板：桌面前端 + 平板设备，仅固定顶栏，不启用手机移动端布局");
     } else {
-        mobileLayoutReasons.push(`UA 未匹配移动端，且 getFrontend() = ${frontend}`);
+        mobileLayoutReasons.push(`非手机移动端前端，且未命中平板判定；getFrontend() = ${frontend}`);
     }
 
     const topbarFloatDisabledReasons = [];
     if (useMobileLayout) {
         topbarFloatDisabledReasons.push(`启用移动端布局 → body 将添加 body--mobile（${mobileLayoutReasons.join("；")}）`);
+    } else if (tablet) {
+        topbarFloatDisabledReasons.push("识别为平板 → body 将添加 body--tablet，仅关闭顶栏悬浮");
     }
 
+    const 结论 = useMobileLayout ? "识别为移动端" : tablet ? "识别为平板端" : "识别为桌面端";
+
     return {
-        结论: useMobileLayout ? "识别为移动端" : "识别为桌面端",
+        结论,
         frontend,
         frontendNote: PREFER_USER_AGENT_FOR_LOCAL_DEBUG
             ? "当前为本地调试：优先 UA，其次 getFrontend()"
@@ -143,11 +175,14 @@ export const getDeviceDetectionReport = () => {
         isTouchCapable: touchCapable,
         isMobileUserAgent: mobileUA,
         isLikelyMobileBrowser: likelyMobileBrowser,
+        isTabletDevice: tablet,
         shouldUseMobileThemeLayout: useMobileLayout,
+        shouldDisableTopbarFloat: disableTopbarFloat,
         mobileLayoutReasons,
         bodyClasses,
         bodyHasMobileClass: document.body.classList.contains("body--mobile"),
-        topbarFloatEnabled: !useMobileLayout,
+        bodyHasTabletClass: document.body.classList.contains("body--tablet"),
+        topbarFloatEnabled: !disableTopbarFloat,
         topbarFloatDisabledReasons,
     };
 };
@@ -155,7 +190,7 @@ export const getDeviceDetectionReport = () => {
 /** 把识别过程打到控制台，便于对照 DevTools 模拟结果 */
 export const logDeviceDetection = () => {
     const report = getDeviceDetectionReport();
-    const method = report.shouldUseMobileThemeLayout ? "log" : "warn";
+    const method = report.topbarFloatEnabled ? "warn" : "log";
     console[method]("[my_theme 设备识别]", report.结论, {
         判定步骤: report.decisionTrace,
         原因: report.mobileLayoutReasons,

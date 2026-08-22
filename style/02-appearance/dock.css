@@ -1,6 +1,6 @@
 /* ----------------------------------------------01 顶栏---------------------------------------------- */
-/* 桌面端顶栏悬浮：仅移动端/平板关闭（body--window 为 Windows 桌面正常模式，不排除） */
-body:not(.body--mobile) > #toolbar {
+/* 桌面端顶栏悬浮：手机移动端、平板关闭（body--window 为 Windows 桌面正常模式，不排除） */
+body:not(.body--mobile):not(.body--tablet) > #toolbar {
   height: 34px;
   margin-bottom: -34px;
   z-index: 8;
@@ -12,8 +12,8 @@ body:not(.body--mobile) > #toolbar {
 }
 
 /* 悬停，或 Alt 单击锁定显示（见 topbar.js） */
-body:not(.body--mobile) > #toolbar:hover,
-body.my-theme--toolbar-show:not(.body--mobile) > #toolbar {
+body:not(.body--mobile):not(.body--tablet) > #toolbar:hover,
+body.my-theme--toolbar-show:not(.body--mobile):not(.body--tablet) > #toolbar {
   opacity: 1;
   transform: translateY(0px);
   transition: all 100ms;
@@ -23,7 +23,7 @@ body.my-theme--toolbar-show:not(.body--mobile) > #toolbar {
   padding: 4px 12px;
 } */
 
-body:not(.body--mobile) > #toolbar .toolbar__item svg {
+body:not(.body--mobile):not(.body--tablet) > #toolbar .toolbar__item svg {
   height: 15px;
   width: 15px;
 }

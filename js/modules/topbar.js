@@ -3,7 +3,9 @@
 import {
   isOfficialMobileLayout,
   isLikelyMobileBrowser,
+  isTabletDevice,
   logDeviceDetection,
+  shouldDisableTopbarFloat,
   shouldUseMobileThemeLayout,
 } from "./device.js";
 
@@ -64,20 +66,23 @@ function addTopbarTreeButton() {
   }
 }
 
-function initMobileBodyClass() {
-  if (!shouldUseMobileThemeLayout()) return;
+function initDeviceBodyClass() {
+  if (shouldUseMobileThemeLayout()) {
+    document.body.classList.add("body--mobile");
+    document.body.classList.toggle("body--mobile-browser", isLikelyMobileBrowser());
 
-  document.body.classList.add("body--mobile");
-  document.body.classList.toggle("body--mobile-browser", isLikelyMobileBrowser());
-
-  if (navigator.platform.toUpperCase().indexOf("MAC") > -1) {
-    document.body.classList.add("body--mac");
+    if (navigator.platform.toUpperCase().indexOf("MAC") > -1) {
+      document.body.classList.add("body--mac");
+    }
+    return;
   }
+
+  document.body.classList.toggle("body--tablet", isTabletDevice());
 }
 
 /** 类似 VS Code / Cursor：单击 Alt 显示顶栏，再按 Alt / Esc / 点击外部隐藏 */
 function initFloatingToolbarAltToggle() {
-  if (shouldUseMobileThemeLayout()) return;
+  if (shouldDisableTopbarFloat()) return;
 
   let altPressedAlone = false;
 
@@ -147,8 +152,8 @@ function initFloatingToolbarAltToggle() {
 }
 
 export const initTopbar = () => {
-  initMobileBodyClass();
-  logDeviceDetection();
+  initDeviceBodyClass();
+  // logDeviceDetection();
   initFloatingToolbarAltToggle();
 
   if (isOfficialMobileLayout()) {
