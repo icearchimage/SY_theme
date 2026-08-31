@@ -13,5 +13,12 @@
   },
   "readme": {
     "default": "README.md"
-  }
+  },
+  "frontends": [
+    "desktop",
+    "desktop-window",
+    "mobile",
+    "browser-desktop",
+    "browser-mobile"
+  ]
 }
