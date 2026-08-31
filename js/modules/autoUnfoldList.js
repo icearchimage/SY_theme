@@ -1,112 +1,90 @@
 /* ------- 聚焦折叠列表项时自动展开 ---------- */
-/* author by JeffreyChen https://ld246.com/article/1748934188341 */
+/* 原实现 by JeffreyChen https://ld246.com/article/1748934188341 */
+/* 3.8.2：事件总线改为按需订阅，伪造 Plugin 收不到 loaded-protyle-static */
 
-function eventBusOn(eventName, callback) {
-  const plugin = getMyPlugin();
-  plugin.eventBus.on(eventName, callback);
+const SKIP_PLUGIN_NAMES = new Set(["my-custom-plugin", "my-theme-auto-unfold"]);
+
+function unfoldFocusedList(wysiwyg) {
+  if (wysiwyg?.dataset?.docType !== "NodeListItem") return;
+  wysiwyg.querySelector(":scope > [data-node-id].li")?.removeAttribute("fold");
 }
 
-function getMyPlugin(pluginName = "my-custom-plugin") {
-  let myPlugin = window.siyuan.ws.app.plugins.find((item) => item.name === pluginName);
-  if (myPlugin) return myPlugin;
-
-  class EventBus {
-    constructor(name = "") {
-      this.eventTarget = document.createComment(name);
-      document.appendChild(this.eventTarget);
-    }
-    on(type, listener) {
-      this.eventTarget.addEventListener(type, listener);
-    }
-    once(type, listener) {
-      this.eventTarget.addEventListener(type, listener, { once: true });
-    }
-    off(type, listener) {
-      this.eventTarget.removeEventListener(type, listener);
-    }
-    emit(type, detail) {
-      return this.eventTarget.dispatchEvent(new CustomEvent(type, { detail, cancelable: true }));
-    }
-  }
-
-  class Plugin {
-    constructor(options) {
-      this.app = options.app || window.siyuan.ws.app.appId;
-      this.i18n = options.i18n;
-      this.displayName = options.displayName || options.name;
-      this.name = options.name;
-      this.eventBus = new EventBus(options.name);
-      this.protyleSlash = [];
-      this.customBlockRenders = {};
-      this.topBarIcons = [];
-      this.statusBarIcons = [];
-      this.commands = [];
-      this.models = {};
-      this.docks = {};
-      this.data = {};
-      this.protyleOptionsValue = null;
-    }
-    onload() {}
-    onunload() {}
-    uninstall() {}
-    async updateCards(options) {
-      return options;
-    }
-    onLayoutReady() {}
-    addCommand(command) {}
-    addIcons(svg) {}
-    addTopBar(options) {
-      return null;
-    }
-    addStatusBar(options) {
-      return null;
-    }
-    loadData(storageName) {
-      return Promise.resolve(null);
-    }
-    saveData(storageName, data) {
-      return Promise.resolve();
-    }
-    removeData(storageName) {
-      return Promise.resolve();
-    }
-    getOpenedTab() {
-      return {};
-    }
-    addTab(options) {
-      return () => {};
-    }
-    addDock(options) {
-      return {};
-    }
-    addFloatLayer(options) {}
-    updateProtyleToolbar(toolbar) {
-      return toolbar;
-    }
-    set protyleOptions(options) {}
-    get protyleOptions() {
-      return this.protyleOptionsValue;
-    }
-  }
-
-  myPlugin = new Plugin({ name: pluginName });
-  window.siyuan.ws.app.plugins.push(myPlugin);
-  return myPlugin;
+function eventBusHandler(event) {
+  if (event?.type !== "loaded-protyle-static" && event?.type !== "switch-protyle") return;
+  unfoldFocusedList(event?.detail?.protyle?.wysiwyg?.element);
 }
 
-function eventBusHandler(args) {
-  if (args.type !== "loaded-protyle-static") return;
+function getHostPlugin() {
+  const plugins = window.siyuan?.ws?.app?.plugins;
+  if (!Array.isArray(plugins)) return null;
+  return plugins.find((plugin) => plugin?.eventBus && !SKIP_PLUGIN_NAMES.has(plugin.name)) || null;
+}
 
-  // 编辑器加载完成：聚焦折叠列表项时自动展开
-  // 原理：仅用 CSS 覆盖块标不会变，需用 JS；移除 fold="1" 后编辑只影响子块，不会保存展开状态
-  const wysiwyg = args.detail.protyle.wysiwyg.element;
-  if (wysiwyg?.dataset.docType === "NodeListItem") {
-    wysiwyg.querySelector(":scope > [data-node-id].li")?.removeAttribute("fold");
+function removeFakePlugin() {
+  const plugins = window.siyuan?.ws?.app?.plugins;
+  if (!Array.isArray(plugins)) return;
+  const index = plugins.findIndex((plugin) => plugin?.name === "my-custom-plugin");
+  if (index >= 0) plugins.splice(index, 1);
+}
+
+function subscribeOnRealEventBus(handler) {
+  const host = getHostPlugin();
+  if (!host) return false;
+
+  try {
+    const bus = new host.eventBus.constructor();
+    bus.on("loaded-protyle-static", handler);
+    bus.on("switch-protyle", handler);
+    return true;
+  } catch {
+    host.eventBus.on("loaded-protyle-static", handler);
+    host.eventBus.on("switch-protyle", handler);
+    return true;
   }
+}
+
+function observeFocusedLists() {
+  const scan = (root = document) => {
+    if (root !== document && root.nodeType !== 1) return;
+    if (root.matches?.(".protyle-wysiwyg")) unfoldFocusedList(root);
+    root.querySelectorAll?.(".protyle-wysiwyg[data-doc-type='NodeListItem']").forEach(unfoldFocusedList);
+  };
+
+  scan();
+
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      if (mutation.type === "attributes") {
+        const target = mutation.target;
+        if (target.matches?.(".protyle-wysiwyg")) unfoldFocusedList(target);
+        else if (target.parentElement?.matches?.(".protyle-wysiwyg")) unfoldFocusedList(target.parentElement);
+        continue;
+      }
+      mutation.addedNodes.forEach((node) => scan(node));
+    }
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["data-doc-type", "fold"],
+  });
 }
 
 function autoUnfoldList() {
-  eventBusOn("loaded-protyle-static", eventBusHandler);
+  removeFakePlugin();
+
+  if (!subscribeOnRealEventBus(eventBusHandler)) {
+    const startedAt = Date.now();
+    const timer = setInterval(() => {
+      if (subscribeOnRealEventBus(eventBusHandler) || Date.now() - startedAt > 15000) {
+        clearInterval(timer);
+      }
+    }, 300);
+  }
+
+  observeFocusedLists();
 }
 
 export const initAutoUnfoldList = () => {
