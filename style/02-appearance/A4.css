@@ -22,6 +22,11 @@ body.body--mobile .protyle-wysiwyg {
   padding-right: 14px !important;
 }
 
+/* 去掉聚焦时正文自下而上滑入（.protyle-wysiwyg--animate / bottom2Top） */
+.protyle-wysiwyg--animate {
+  animation: none;
+}
+
 /* .protyle-content {
     background-image: linear-gradient(to right, rgba(60, 10, 30, 0.05) 1px, transparent 0px);
     background-size: 15vw 15vw !important;
