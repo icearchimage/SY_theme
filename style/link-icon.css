@@ -513,6 +513,15 @@
   background-image: url("../icon4Tsundoku/pdfguruanki.png");
 }
 
+/* readest */
+.protyle-wysiwyg [data-node-id] span[data-type="a"][data-href*="readest"]:not(:empty)::before,
+.b3-typography a[href*="readest"]::before {
+  content: "";
+  background-image: url("../icon4Tsundoku/readest.png");
+}
+
+
+
 /* ————————————————————为常见的文件格式设置图标———————————————————— */
 /* 文件夹 */
 .protyle-wysiwyg [data-node-id] span[data-type='a'][data-href^="file://"]:not(:empty)::before,
